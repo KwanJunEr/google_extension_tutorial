@@ -13,13 +13,18 @@ chrome.alarms.create({
 })
 
 chrome.alarms.onAlarm.addListener((alarm)=>{
-    chrome.storage.local.get(["timer"], (res)=>{
+    chrome.storage.local.get(["timer","isRunning"], (res)=>{
         const time = res.timer ?? 0
+        const isRunning = res.isRunning ?? true
+        if(!isRunning){
+            return 
+        }
+        const newTime = time + 1
         chrome.storage.local.set({
             timer: time + 1,
         })
         chrome.action.setBadgeText({
-            text: `${time + 1}`
+            text: `${newTime}`
         })
         chrome.storage.sync.get(["notificationTime"], (res)=>{
             const notificationTime = res.notificationTime ?? 1000
