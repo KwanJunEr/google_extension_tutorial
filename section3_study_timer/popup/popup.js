@@ -28,8 +28,9 @@ function renderTask(taskNum) {
     const deleteBtn = document.createElement("input")
     deleteBtn.type = "button"
     deleteBtn.value = "X"
+    deleteBtn.className = "task-delete"
     deleteBtn.addEventListener("click", () => {
-      
+      deleteTask(taskNum)
     })
 
     taskRow.appendChild(text)
@@ -51,4 +52,12 @@ function deleteTask(taskNum){
     tasks.splice(taskNum, 1)
     renderTasks()
     saveTasks()
+}
+
+function renderTasks(){
+    const taskContainer = document.getElementById("task-container")
+    taskContainer.textContent = ""
+    tasks.forEach((taskText, taskNum)=>{
+        renderTask(taskNum)
+    })
 }
