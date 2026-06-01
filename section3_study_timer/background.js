@@ -26,13 +26,15 @@ chrome.alarms.onAlarm.addListener((alarm)=>{
                 /*
                     Gets the curretn timer value and adds 1 second 
                 */
-               let isRunning = true 
+               let isRunning = true
                if(timer === 60 * 25){
-                this.registration.showNotification("Pomodoro Timer",{
-                    body: "25 minutes has passed",
-                    icon: "icon.png",
+                chrome.notifications.create({
+                    type: "basic",
+                    iconUrl: "icon.png",
+                    title: "Pomodoro Timer",
+                    message: "25 minutes has passed",
                 })
-                timer = 0,
+                timer = 0
                 isRunning = false
                }
                 
