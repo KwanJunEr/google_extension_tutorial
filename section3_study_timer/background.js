@@ -12,7 +12,7 @@ chrome.alarms.onAlarm.addListener((alarm)=>{
     //Every time any alarm fires, this function runs, alarm is the alarm object that fired 
     if(alarm.name === "pomodoroTimer"){
         //Checks if its your specific alarm (you might have multiple alarms in an extension)
-        chrome.storage.local.get(["timer", "isRunning"], (res)=>{
+        chrome.storage.local.get(["timer", "isRunning", "timeOption"], (res)=>{
             /*
             Reads two values from storage: timer and isRunning 
             res is the result object -- like { timer: 10, isRunning: true }
@@ -27,12 +27,12 @@ chrome.alarms.onAlarm.addListener((alarm)=>{
                     Gets the curretn timer value and adds 1 second 
                 */
                let isRunning = true
-               if(timer === 60 * 25){
+               if(timer === 60 * res.timeOption){
                 chrome.notifications.create({
                     type: "basic",
                     iconUrl: "icon.png",
                     title: "Pomodoro Timer",
-                    message: "25 minutes has passed",
+                    message: `${res.timeOption} minutes has passed`,
                 })
                 timer = 0
                 isRunning = false
@@ -47,9 +47,10 @@ chrome.alarms.onAlarm.addListener((alarm)=>{
     }
 })
 
-chrome.storage.local.get(["timer", "isRunning"], (res)=>{
+chrome.storage.local.get(["timer", "isRunning", "timeOption"], (res)=>{
     chrome.storage.local.set({
         timer: "timer" in res ? res.timer : 0, 
-        isRunning: "isRunning" in res? res?.isRunning : false
+        isRunning: "isRunning" in res? res?.isRunning : false,
+        timeOption: "timeOption" in res? res.timeOption : 25, 
     })
 })
