@@ -13,6 +13,8 @@ function updateTime(){
     })
 }
 
+//Always convert from total seconds → (minutes + seconds) using division and modulus
+
 updateTime()
 setInterval(updateTime, 1000)
 
